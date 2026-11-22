@@ -1,0 +1,37 @@
+# yaml-language-server: $schema=../../../schemas/pipelines.schema.json
+description: Classify a ticket with an LLM, auto-reply to routine tickets and ask a human before replying to high priority ones.
+deliver: [slack]
+steps:
+  - id: classify
+    uses: agent
+    with:
+      agent: triager
+      prompt: "Ticket {{ facts.ticket }} from {{ facts.requester }}\nSubject: {{ facts.subject }}\n\n{{ facts.body }}"
+      outputs:
+        type: object
+        required: [category, priority, summary, reply]
+        properties:
+          category: { type: string }
+          priority: { type: string, enum: [low, normal, high] }
+          summary: { type: string }
+          reply: { type: string }
+  - id: autoReply
+    uses: channel.send
+    needs: [classify]
+    when: "steps.classify.outputs.priority != 'high'"
+    with:
+      kind: triage.reply
+      message: "Ticket {{ facts.ticket }} ({{ steps.classify.outputs.category }}): {{ steps.classify.outputs.reply }}"
+  - id: approval
+    uses: approval
+    needs: [classify]
+    when: "steps.classify.outputs.priority == 'high'"
+    with:
+      message: "High priority ticket {{ facts.ticket }}: {{ steps.classify.outputs.summary }}. Send the drafted reply?"
+  - id: sendReply
+    uses: channel.send
+    needs: [approval]
+    when: "steps.approval.state == 'succeeded'"
+    with:
+      kind: triage.reply
+      message: "Ticket {{ facts.ticket }} ({{ steps.classify.outputs.category }}): {{ steps.classify.outputs.reply }}"

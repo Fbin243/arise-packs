@@ -1,0 +1,18 @@
+id: arise-examples/research
+version: 1.0.0
+arise: ">=2.0 <3"
+description: Multi-agent research. A watcher feeds topics to child research quests, a trigger starts a synthesis when they complete.
+requires:
+  env: [RESEARCH_AGENT_KEY, OPENAI_API_KEY]
+  bins: [python3, research-agent]
+permissions:
+  network: [localhost]
+  workspace: write
+  repo: false
+  secrets: [RESEARCH_AGENT_KEY]
+exports:
+  agents: [editor, researcher, synthesizer]
+  pipelines: [research, research-topic, synthesis]
+  triggers: [synthesize]
+  watchers: [research.feed]
+  runtimes: [research-agent]

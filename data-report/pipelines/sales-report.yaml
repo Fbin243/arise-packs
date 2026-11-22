@@ -1,0 +1,22 @@
+# yaml-language-server: $schema=../../../schemas/pipelines.schema.json
+description: Fetch totals per region in parallel, summarise them with an LLM and email the summary.
+steps:
+  - id: fetch
+    uses: report.fetch
+    map: { over: facts.regions, maxParallel: 2 }
+    with:
+      region: "{{ item }}"
+      days: 1
+  - id: summarize
+    uses: agent
+    needs: [fetch]
+    with:
+      agent: analyst
+      prompt: "Summarise the sales for {{ facts.date }}. Totals per region: {{ steps.fetch.outputs.items }}"
+  - id: email
+    uses: channel.send
+    needs: [summarize]
+    with:
+      kind: report.daily
+      deliver: [email]
+      message: "{{ steps.summarize.outputs.text }}"

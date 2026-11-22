@@ -1,0 +1,35 @@
+description: A routine ticket is classified on a masked prompt and answered without a human.
+env:
+  HELPDESK_WEBHOOK_SECRET: scenario-secret
+  SLACK_API_URL: "@service:slack"
+  SLACK_BOT_TOKEN: scenario-token
+  SLACK_CHANNEL: "#support"
+services:
+  slack: {}
+agents:
+  triager:
+    reply: { category: how-to, priority: low, summary: usage question, reply: Here is how to export your data. }
+run:
+  - webhook:
+      id: helpdesk
+      sign: { header: x-helpdesk-signature, secret: HELPDESK_WEBHOOK_SECRET, prefix: "sha256=" }
+      body:
+        type: ticket.created
+        ticket: { id: T-1, subject: Question, body: "How do I export? Call me on +1 415 555 0100", requester: pat@example.com, tags: [] }
+expect:
+  quests:
+    - pipeline: ticket-triage
+      completed: true
+      steps: { classify: succeeded, autoReply: succeeded, approval: skipped, sendReply: skipped }
+      labels: { team: support }
+      facts: { ticket: T-1, requester: pat@example.com }
+  prompts:
+    triager:
+      count: 1
+      contains: ["[email]", "[phone]"]
+      notContains: [pat@example.com, "555"]
+  requests:
+    slack:
+      - method: POST
+        path: /chat.postMessage
+        body: { channel: "#support", text: "Ticket T-1 (how-to): Here is how to export your data." }

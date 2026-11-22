@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=../../../schemas/cron.schema.json
+description: Every morning build the sales report and email it.
+schedule: daily at 07:30
+timezone: UTC
+concurrency: skip
+then:
+  uses: pipeline.start
+  with:
+    pipeline: sales-report
+    prompt: "Sales report for {{ date }}"
+    facts:
+      date: "{{ date }}"
+      regions: [emea, apac, amer]
+      days: 1
+    labels: { team: analytics }

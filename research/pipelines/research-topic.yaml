@@ -1,0 +1,20 @@
+# yaml-language-server: $schema=../../../schemas/pipelines.schema.json
+description: Research one topic (the quest prompt) with the external agent, then edit the note into a summary. Called by the research pipeline once per topic.
+steps:
+  - id: gather
+    uses: agent
+    with:
+      agent: researcher
+      prompt: "Topic: {{ prompt }}\nGather the key facts and name the source of each."
+  - id: edit
+    uses: agent
+    needs: [gather]
+    with:
+      agent: editor
+      prompt: "Topic: {{ prompt }}\nTighten this research note into a summary:\n{{ steps.gather.outputs.text }}"
+      outputs:
+        type: object
+        required: [topic, summary]
+        properties:
+          topic: { type: string }
+          summary: { type: string }

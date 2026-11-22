@@ -1,0 +1,14 @@
+# yaml-language-server: $schema=../../../schemas/triggers.schema.json
+description: When a research quest completes, start the synthesis pipeline on its summaries.
+when: [quest.completed]
+filter: scripts/research-completed.py
+dedupeKey: "{{ event.quest }}"
+then:
+  uses: pipeline.start
+  with:
+    pipeline: synthesis
+    prompt: "Briefing for {{ event.title }}"
+    facts:
+      source: "{{ event.quest }}"
+      summaries: "{{ event.summaries }}"
+    labels: { team: research }

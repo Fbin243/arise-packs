@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=../../../schemas/agents.schema.json
+name: Synthesizer
+role: synthesizer
+description: Combines several topic summaries into one briefing.
+runtime: llm
+model: openai/gpt-5-mini
+permissions:
+  workspace: read

@@ -1,0 +1,4 @@
+description: Mask email addresses and phone numbers before a prompt reaches a model.
+on: [beforeAgent]
+run: scripts/mask-pii.py
+timeout: 10s

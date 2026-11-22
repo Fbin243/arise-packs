@@ -1,0 +1,26 @@
+id: arise-examples/data-report
+version: 1.0.0
+arise: ">=2.0 <3"
+description: Build a sales report every morning from a reporting API, summarise it with an LLM and email it.
+requires:
+  env: [REPORT_API_URL, EMAIL_API_URL, EMAIL_API_KEY, REPORT_RECIPIENTS, OPENAI_API_KEY]
+  bins: [python3]
+permissions:
+  network: [reports.example.com, mail.example.com]
+  workspace: none
+  repo: false
+  secrets: [EMAIL_API_KEY]
+config:
+  type: object
+  additionalProperties: false
+  properties:
+    subjectPrefix:
+      type: string
+      default: ""
+      description: Text put in front of the email subject.
+exports:
+  agents: [analyst]
+  pipelines: [sales-report]
+  cron: [daily-report]
+  actions: [report.fetch]
+  channels: [email]

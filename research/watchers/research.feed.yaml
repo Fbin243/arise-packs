@@ -1,0 +1,18 @@
+# yaml-language-server: $schema=../../../schemas/watchers.schema.json
+description: Watch a JSON feed and start a research quest for the topics that appeared since the last poll.
+run: scripts/feed-watch.py
+params:
+  type: object
+  required: [url]
+  properties:
+    url: { type: string, description: URL of a JSON feed with an items list of id and title }
+every: 1m
+expires: 7d
+emits: [custom.research.topics]
+then:
+  uses: pipeline.start
+  with:
+    pipeline: research
+    prompt: "Research {{ event.count }} new topics"
+    facts: { topics: "{{ event.topics }}" }
+    labels: { team: research }

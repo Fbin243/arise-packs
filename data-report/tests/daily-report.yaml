@@ -1,0 +1,47 @@
+description: The daily report fetches every region, summarises with the analyst agent and emails the summary.
+env:
+  REPORT_API_URL: "@service:reports"
+  EMAIL_API_URL: "@service:mail"
+  EMAIL_API_KEY: scenario-key
+  REPORT_RECIPIENTS: boss@example.com,team@example.com
+packConfig:
+  subjectPrefix: "[Sales] "
+services:
+  reports:
+    response: { rows: [{ amount: 10.5 }, { amount: 10.5 }] }
+  mail: {}
+agents:
+  analyst:
+    reply: "Daily sales\nRevenue is steady."
+run:
+  - cron: daily-report
+expect:
+  quests:
+    - pipeline: sales-report
+      completed: true
+      steps: { fetch: succeeded, summarize: succeeded, email: succeeded }
+      outputs:
+        fetch:
+          count: 3
+          items:
+            - { region: emea, orders: 2, revenue: 21 }
+            - { region: apac, orders: 2, revenue: 21 }
+            - { region: amer, orders: 2, revenue: 21 }
+  prompts:
+    analyst:
+      count: 1
+      contains: ['"region":"emea","orders":2,"revenue":21']
+  requests:
+    reports:
+      - { method: GET, path: /orders }
+      - { method: GET, path: /orders }
+      - { method: GET, path: /orders }
+    mail:
+      - method: POST
+        path: /send
+        headers: { authorization: "Bearer scenario-key" }
+        body:
+          to: [boss@example.com, team@example.com]
+          subject: "[Sales] Daily sales"
+          text: "Daily sales\nRevenue is steady."
+          kind: report.daily

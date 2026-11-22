@@ -1,0 +1,15 @@
+# yaml-language-server: $schema=../../../schemas/pipelines.schema.json
+description: Combine the topic summaries of a finished research quest into one briefing.
+deliver: [local]
+steps:
+  - id: synthesize
+    uses: agent
+    with:
+      agent: synthesizer
+      prompt: "Write one briefing from these topic summaries: {{ facts.summaries }}"
+  - id: publish
+    uses: channel.send
+    needs: [synthesize]
+    with:
+      kind: research.briefing
+      message: "{{ steps.synthesize.outputs.text }}"

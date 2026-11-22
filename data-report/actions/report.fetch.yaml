@@ -1,0 +1,21 @@
+# yaml-language-server: $schema=../../../schemas/actions.schema.json
+description: Fetch order totals for one region from the reporting API.
+run: scripts/report-fetch.py
+env: [REPORT_API_URL]
+with:
+  type: object
+  required: [region]
+  properties:
+    region: { type: string }
+    days: { type: integer }
+outputs:
+  type: object
+  required: [region, orders, revenue]
+  properties:
+    region: { type: string }
+    orders: { type: integer }
+    revenue: { type: number }
+timeout: 30s
+parallelSafe: true
+permissions:
+  network: [reports.example.com]

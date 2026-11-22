@@ -1,0 +1,27 @@
+id: arise-examples/support-triage
+version: 1.0.0
+arise: ">=2.0 <3"
+description: Classify helpdesk tickets with an LLM, answer routine ones and ask a human on Slack before answering high priority ones.
+requires:
+  env: [HELPDESK_WEBHOOK_SECRET, SLACK_API_URL, SLACK_BOT_TOKEN, SLACK_CHANNEL, OPENAI_API_KEY]
+  bins: [python3]
+permissions:
+  network: [slack.com]
+  workspace: none
+  repo: false
+  secrets: [HELPDESK_WEBHOOK_SECRET, SLACK_BOT_TOKEN]
+config:
+  type: object
+  additionalProperties: false
+  properties:
+    mention:
+      type: string
+      default: ""
+      description: Slack mention (for example <!subteam^S123>) put in front of approval requests.
+exports:
+  agents: [triager]
+  pipelines: [ticket-triage]
+  triggers: [ticket-created]
+  webhooks: [helpdesk]
+  channels: [slack]
+  guardrails: [mask-pii]

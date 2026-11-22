@@ -1,0 +1,38 @@
+description: A feed poll starts a research quest, one child quest per topic, and the trigger chains the synthesis when the research completes.
+env:
+  RESEARCH_AGENT_KEY: scenario-key
+services:
+  feed:
+    response:
+      items:
+        - { id: a, title: pricing }
+        - { id: b, title: support }
+agents:
+  researcher:
+    reply: Pricing and support facts, each with a source.
+  editor:
+    match:
+      - { contains: "Topic: pricing", reply: { topic: pricing, summary: Summary of pricing } }
+      - { contains: "Topic: support", reply: { topic: support, summary: Summary of support } }
+  synthesizer:
+    reply: Briefing one
+run:
+  - watch:
+      watcher: research.feed
+      params: { url: "@service:feed/feed" }
+expect:
+  quests:
+    - pipeline: research
+      completed: true
+      labels: { team: research }
+      facts: { topics: [pricing, support] }
+    - { pipeline: research-topic, completed: true, steps: { gather: succeeded, edit: succeeded } }
+    - { pipeline: research-topic, completed: true, steps: { gather: succeeded, edit: succeeded } }
+    - { pipeline: synthesis, completed: true }
+  prompts:
+    synthesizer:
+      count: 1
+      contains: [Summary of pricing, Summary of support]
+  requests:
+    feed:
+      - { method: GET, path: /feed }

@@ -1,0 +1,32 @@
+description: A high priority ticket asks on Slack; the Approve button becomes a decide signal and the reply goes out.
+env:
+  HELPDESK_WEBHOOK_SECRET: scenario-secret
+  SLACK_API_URL: "@service:slack"
+  SLACK_BOT_TOKEN: scenario-token
+  SLACK_CHANNEL: "#support"
+packConfig:
+  mention: "<!here>"
+services:
+  slack: {}
+agents:
+  triager:
+    reply: { category: billing, priority: high, summary: customer wants a refund, reply: We are looking into your refund. }
+run:
+  - webhook:
+      id: helpdesk
+      sign: { header: x-helpdesk-signature, secret: HELPDESK_WEBHOOK_SECRET, prefix: "sha256=" }
+      body:
+        type: ticket.created
+        ticket: { id: T-2, subject: Charged twice, body: I want a refund, requester: sam@example.com, tags: [] }
+  - decide: { quest: 1, choice: approve }
+expect:
+  quests:
+    - pipeline: ticket-triage
+      completed: true
+      steps: { classify: succeeded, autoReply: skipped, approval: succeeded, sendReply: succeeded }
+  requests:
+    slack:
+      - path: /chat.postMessage
+        body: { channel: "#support" }
+      - path: /chat.postMessage
+        body: { text: "Ticket T-2 (billing): We are looking into your refund." }

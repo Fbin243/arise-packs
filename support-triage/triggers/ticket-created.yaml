@@ -1,0 +1,16 @@
+# yaml-language-server: $schema=../../../schemas/triggers.schema.json
+description: Start triage for every new ticket that is not tagged as spam.
+when: [custom.helpdesk.ticket.created]
+if: "!('spam' in event.tags)"
+dedupeKey: "{{ event.id }}"
+then:
+  uses: pipeline.start
+  with:
+    pipeline: ticket-triage
+    prompt: "{{ event.subject }}"
+    facts:
+      ticket: "{{ event.id }}"
+      subject: "{{ event.subject }}"
+      body: "{{ event.body }}"
+      requester: "{{ event.requester }}"
+    labels: { team: support }

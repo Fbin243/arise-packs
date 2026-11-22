@@ -1,0 +1,8 @@
+# yaml-language-server: $schema=../../../schemas/agents.schema.json
+name: Editor
+role: editor
+description: Tightens a research note into a short, structured summary.
+runtime: llm
+model: openai/gpt-5-mini
+permissions:
+  workspace: read
