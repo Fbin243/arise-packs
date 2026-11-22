@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../../../schemas/pipelines.schema.json
 description: Combine the topic summaries of a finished research quest into one briefing.
 deliver: [local]
 steps:

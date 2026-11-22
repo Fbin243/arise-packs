@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../../../schemas/cron.schema.json
 description: Every morning build the sales report and email it.
 schedule: daily at 07:30
 timezone: UTC

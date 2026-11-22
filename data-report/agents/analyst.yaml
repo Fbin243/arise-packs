@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../../../schemas/agents.schema.json
 name: Analyst
 role: data analyst
 description: Turns per-region totals into a short written summary.

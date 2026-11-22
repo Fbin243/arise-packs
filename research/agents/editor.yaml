@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../../../schemas/agents.schema.json
 name: Editor
 role: editor
 description: Tightens a research note into a short, structured summary.

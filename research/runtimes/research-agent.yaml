@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../../../schemas/runtimes.schema.json
 description: A command-line research agent that speaks ACP over stdio.
 protocol: acp
 command: research-agent

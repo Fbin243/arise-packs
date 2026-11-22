@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../../../schemas/pipelines.schema.json
 description: Fetch totals per region in parallel, summarise them with an LLM and email the summary.
 steps:
   - id: fetch

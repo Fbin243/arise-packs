@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../../../schemas/channels.schema.json
 description: Post to a Slack channel; approval requests carry Approve and Reject buttons.
 send: scripts/slack-send.py
 env: [SLACK_API_URL, SLACK_BOT_TOKEN, SLACK_CHANNEL]

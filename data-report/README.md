@@ -12,4 +12,4 @@ A cron job starts a pipeline every morning. A file-declared action written in Py
 
 Set `REPORT_API_URL`, `EMAIL_API_URL`, `EMAIL_API_KEY`, `REPORT_RECIPIENTS` (comma separated) and `OPENAI_API_KEY` in `~/.arise/.env`; the LLM provider itself (`llm.providers`) stays in your own `config.yaml`.
 
-Install: `arise pack add github:Fbin243/arise-packs/data-report@v1.0.0`. Pack config `subjectPrefix` is put in front of the email subject (the script reads `ARISE_PACK_CONFIG`). Tests: `arise pack test` runs `tests/daily-report.yaml`; the workspace test `tests/packs-data-report.test.ts` installs the pack from a local git remote and runs three scheduled runs.
+Install: `arise pack add github:Fbin243/arise-packs/data-report@v1.0.1`. Pack config `subjectPrefix` is put in front of the email subject (the script reads `ARISE_PACK_CONFIG`). Tests: `arise pack test` runs `tests/daily-report.yaml`; the workspace test `tests/packs-data-report.test.ts` installs the pack from a local git remote and runs three scheduled runs.

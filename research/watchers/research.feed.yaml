@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../../../schemas/watchers.schema.json
 description: Watch a JSON feed and start a research quest for the topics that appeared since the last poll.
 run: scripts/feed-watch.py
 params:

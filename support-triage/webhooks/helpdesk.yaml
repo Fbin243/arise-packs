@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../../../schemas/webhooks.schema.json
 description: Receive ticket notifications from the helpdesk and turn them into events.
 verify:
   hmac-sha256: { secret: HELPDESK_WEBHOOK_SECRET, header: x-helpdesk-signature, prefix: "sha256=" }

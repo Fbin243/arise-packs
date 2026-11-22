@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../../../schemas/actions.schema.json
 description: Fetch order totals for one region from the reporting API.
 run: scripts/report-fetch.py
 env: [REPORT_API_URL]

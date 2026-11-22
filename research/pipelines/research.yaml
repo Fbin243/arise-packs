@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../../../schemas/pipelines.schema.json
 description: Research every topic in its own child quest and keep the summaries as quest facts.
 limits: { maxMinutes: 240 }
 steps:

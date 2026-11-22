@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../../../schemas/pipelines.schema.json
 description: Classify a ticket with an LLM, auto-reply to routine tickets and ask a human before replying to high priority ones.
 deliver: [slack]
 steps:

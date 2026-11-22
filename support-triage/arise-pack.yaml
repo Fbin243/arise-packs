@@ -1,5 +1,5 @@
 id: arise-examples/support-triage
-version: 1.0.0
+version: 1.0.1
 arise: ">=2.0 <3"
 description: Classify helpdesk tickets with an LLM, answer routine ones and ask a human on Slack before answering high priority ones.
 requires:

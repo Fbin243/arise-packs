@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../../../schemas/agents.schema.json
 name: Triager
 role: support triage
 description: Classifies a support ticket and drafts a first reply.

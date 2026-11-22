@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../../../schemas/pipelines.schema.json
 description: Research one topic (the quest prompt) with the external agent, then edit the note into a summary. Called by the research pipeline once per topic.
 steps:
   - id: gather

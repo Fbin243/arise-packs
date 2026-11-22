@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../../../schemas/channels.schema.json
 description: Send a message as an email through an HTTP mail API.
 send: scripts/email-send.py
 env: [EMAIL_API_URL, EMAIL_API_KEY, REPORT_RECIPIENTS]

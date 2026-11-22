@@ -1,4 +1,3 @@
-# yaml-language-server: $schema=../../../schemas/agents.schema.json
 name: Researcher
 role: researcher
 description: Gathers sourced facts about one topic with the external research agent.
