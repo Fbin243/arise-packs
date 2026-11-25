@@ -1,0 +1,17 @@
+description: General work completes using one agent.
+agents:
+  general:
+    reply: Work completed.
+run:
+  - start:
+      pipeline: general
+      prompt: Summarise the documentation.
+expect:
+  quests:
+    - pipeline: general
+      completed: true
+      steps: { work: succeeded }
+  prompts:
+    general:
+      count: 1
+      contains: [Summarise the documentation.]

@@ -1,0 +1,5 @@
+id: general
+role: generalist
+permissions:
+  workspace: write
+description: Handles general work that no specialised pipeline covers, such as research, writing and small tasks.

@@ -1,0 +1,10 @@
+id: general
+description: General work with no specialised pipeline, such as research, analysis, writing or a small change, done by one agent.
+steps:
+  - id: work
+    uses: agent
+    stage: working
+    with:
+      agent: general
+      prompt: "Do this task in the working directory. Write any document you produce as a Markdown file there, and end with a short summary of the result.\n\n{{ prompt }}"
+      checkpoint: "quest: {{ title }}"

@@ -1,0 +1,10 @@
+id: arise-examples/general
+version: 1.0.2
+arise: ">=1.0 <2"
+description: General-purpose work handled by one agent using the configured default model.
+permissions:
+  workspace: write
+  repo: false
+exports:
+  agents: [general]
+  pipelines: [general]

@@ -3,7 +3,7 @@ import json
 import sys
 
 request = json.load(sys.stdin)
-payload = request.get("payload") or {}
+payload = request.get("body") or {}
 if payload.get("type") != "ticket.created":
     print("[SILENT]")
     sys.exit(0)
